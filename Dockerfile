@@ -1,20 +1,17 @@
-# Use the official n8n image (Alpine-based)
-FROM n8nio/n8n:latest
+# Use lightweight Node.js base image
+FROM node:18-alpine
 
-# Switch to root user
-USER root
+# Set working directory
+WORKDIR /app
 
-# Install Chromium and its driver using apk (Alpine package manager)
-RUN apk update && \
-    apk add --no-cache chromium chromium-chromedriver
+# Install required dependencies (Chromium + driver for automation)
+RUN apk add --no-cache chromium chromium-chromedriver
 
-# Optional: Enable basic authentication for security
-ENV N8N_BASIC_AUTH_ACTIVE=true
-ENV N8N_BASIC_AUTH_USER=admin
-ENV N8N_BASIC_AUTH_PASSWORD=yourpassword
+# Install n8n globally
+RUN npm install -g n8n
 
-# Expose n8n default port
+# Expose default n8n port
 EXPOSE 5678
 
-# Start n8n
+# Start n8n automatically
 CMD ["n8n", "start"]
