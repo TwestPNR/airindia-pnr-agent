@@ -1,20 +1,19 @@
-# Use official n8n image (Debian-based, supports apt-get)
+# Use the official n8n image (Alpine-based)
 FROM n8nio/n8n:latest
 
-# Switch to root to install packages
+# Switch to root user
 USER root
 
-# Install Chromium & driver for browser automation
-RUN apt-get update && \
-    apt-get install -y chromium chromium-driver && \
-    rm -rf /var/lib/apt/lists/*
+# Install Chromium and its driver using apk (Alpine package manager)
+RUN apk update && \
+    apk add --no-cache chromium chromium-chromedriver
 
-# Environment variables for n8n basic auth
+# Optional: Enable basic authentication for security
 ENV N8N_BASIC_AUTH_ACTIVE=true
 ENV N8N_BASIC_AUTH_USER=admin
 ENV N8N_BASIC_AUTH_PASSWORD=yourpassword
 
-# Default n8n port
+# Expose n8n default port
 EXPOSE 5678
 
 # Start n8n
