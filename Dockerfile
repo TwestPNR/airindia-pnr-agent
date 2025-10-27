@@ -1,17 +1,17 @@
-# Use lightweight Node.js base image
+# Use a stable version of Node
 FROM node:18-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Install required dependencies (Chromium + driver for automation)
+# Install dependencies
 RUN apk add --no-cache chromium chromium-chromedriver
 
-# Install n8n globally
-RUN npm install -g n8n
+# Install a stable version of n8n (not latest)
+RUN npm install -g n8n@1.66.0
 
-# Expose default n8n port
+# Expose the default port
 EXPOSE 5678
 
-# Start n8n automatically
-CMD ["n8n", "start"]
+# Start n8n
+CMD ["n8n"]
